@@ -1,0 +1,324 @@
+{% extends 'User/common.html' %}
+{% load static %}
+{% block title %}Advocate - User{% endblock %}
+{% block header %}
+
+<style>
+    :root {
+        --primary-gold: #c5a059;
+        --dark-bg: #1a1a1a;
+        --soft-gray: #f8f9fa;
+        --text-muted: #888;
+    }
+
+    .page-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/image/bg_1.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .page-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-gold);
+    }
+
+    .breadcrumb-custom {
+        display: flex;
+        justify-content: center;
+        background: transparent;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .breadcrumb-custom li a {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .breadcrumb-custom li.active {
+        color: var(--primary-gold);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .search-container {
+        max-width: 700px;
+        margin: -35px auto 50px;
+        position: relative;
+        z-index: 10;
+        padding: 0 15px;
+    }
+
+    .search-input {
+        background: white;
+        border: none;
+        border-radius: 50px;
+        padding: 18px 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .search-input:focus {
+        box-shadow: 0 15px 40px rgba(197, 160, 89, 0.2);
+        outline: none;
+        transform: translateY(-2px);
+    }
+
+    .advocate-card {
+        background: white;
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #f0f0f0;
+    }
+
+    .advocate-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+        border-color: var(--primary-gold);
+    }
+
+    .card-img-wrapper {
+        position: relative;
+        padding-top: 85%; /* Slightly smaller than 1:1 for better balance */
+        overflow: hidden;
+    }
+
+    .card-img-wrapper img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .advocate-card:hover .card-img-wrapper img {
+        transform: scale(1.1);
+    }
+
+    .card-rating {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background: rgba(26, 26, 26, 0.8);
+        backdrop-filter: blur(5px);
+        color: var(--primary-gold);
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        z-index: 5;
+    }
+
+    .advocate-details {
+        padding: 25px;
+        flex: 1 0 auto; /* Ensures it grows to fill space */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .advocate-name {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: #333;
+        margin-bottom: 5px;
+        /* Ensure name doesn't wrap weirdly and stays on one or two lines */
+        min-height: 3.2rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-clamp: 2;
+        overflow: hidden;
+    }
+
+    .advocate-category {
+        color: var(--primary-gold);
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        font-size: 0.85rem;
+        color: #666;
+    }
+
+    .info-item i {
+        width: 25px;
+        color: #bbb;
+        font-size: 1rem;
+    }
+
+    .card-action {
+        margin-top: auto; /* Pushes button to the bottom */
+        padding-top: 20px;
+    }
+
+    .btn-book {
+        background: var(--dark-bg);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.8rem;
+        width: 100%;
+        transition: all 0.3s ease;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-book:hover {
+        background: var(--primary-gold);
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 5px 15px rgba(197, 160, 89, 0.4);
+    }
+
+    .is-hidden {
+        display: none !important;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 100px 0;
+        color: #ccc;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h3>Expert Advocates</h3>
+        <ul class="breadcrumb-custom list-inline">
+            <li class="list-inline-item"><a href="/">Home</a></li>
+            <li class="list-inline-item text-white-50 mx-2">/</li>
+            <li class="list-inline-item active">Our Directory</li>
+        </ul>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <!-- Modern Search -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by name, expertise, or location..."
+            class="search-input">
+    </div>
+
+    <!-- Advocate Grid -->
+    <div class="row" id="advocateGrid">
+        {% for i in vie %}
+        <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mb-4 advocate-item" data-searchable="{{i.name}} {{i.category}} {{i.address}}">
+            <div class="advocate-card w-100">
+                <div class="card-img-wrapper">
+                    <img src="/static/media/{{i.image}}" alt="Adv. {{i.name}}">
+                    <div class="card-rating">
+                        <i class="ion-ios-star mr-1"></i> {{i.advo_rating}}
+                    </div>
+                </div>
+                <div class="advocate-details">
+                    <span class="advocate-category">{{i.category}}</span>
+                    <h4 class="advocate-name">Adv. {{i.name}}</h4>
+
+                    <div class="mt-3">
+                        <div class="info-item">
+                            <i class="ion-ios-mail"></i>
+                            <span>{{i.email}}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="ion-ios-call"></i>
+                            <span>+91 {{i.phone}}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="ion-ios-pin"></i>
+                            <span>{{i.address|truncatechars:35}}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="ion-ios-document"></i>
+                            <a href="/static/media/{{i.files}}" class="text-primary ml-1" target="_blank">View
+                                Verification</a>
+                        </div>
+                    </div>
+
+                    <div class="card-action">
+                        <a href="/user_book_case?email={{i.email}}" class="btn-book">Consult Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 empty-state">
+            <i class="ion-ios-people-outline"></i>
+            <h4>No advocates found</h4>
+            <p>We are currently onboarding more legal experts. Please check back later.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- No Results Placeholder -->
+    <div id="noResults" class="empty-state is-hidden">
+        <i class="ion-ios-search"></i>
+        <h4>No matching advocates</h4>
+        <p>Try refining your search terms.</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('input', function () {
+            const query = $(this).val().toLowerCase().trim();
+            const items = $('.advocate-item');
+            let found = false;
+
+            items.each(function () {
+                const searchable = $(this).attr('data-searchable').toLowerCase();
+                if (searchable.includes(query)) {
+                    $(this).removeClass('is-hidden');
+                    found = true;
+                } else {
+                    $(this).addClass('is-hidden');
+                }
+            });
+
+            if (found || query === "") {
+                $('#noResults').addClass('is-hidden');
+            } else {
+                $('#noResults').removeClass('is-hidden');
+            }
+        });
+    });
+</script>
+
+{% endblock %}

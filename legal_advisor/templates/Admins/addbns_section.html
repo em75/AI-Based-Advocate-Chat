@@ -1,0 +1,79 @@
+{% extends 'Admins/common.html' %}
+{% load static %}
+{% block header %}
+
+{% for i in messages %}
+    <script>
+        alert("{{i}}");
+    </script>
+{% endfor %}
+
+<section class="ftco-section contact-section">
+    <div class="container">
+        <div class="row block-9">
+            <div class="col-md-2"></div>
+            
+            <div class="col-lg-8 order-md-last d-flex">
+                <form method="post" enctype="multipart/form-data" class="p-5 contact-form" style="background-color: rgb(225, 235, 243); border-radius: 10px;">
+                    {% csrf_token %}
+                    <center><h2><b>Add BNS Sections</b></h2><br></center>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="bns" placeholder="Enter BNS Section" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="" cols="30" name="desc" rows="5" required class="form-control"
+                            placeholder="Decsription"></textarea>
+                    </div>
+                    <center>
+                    <div class="form-group">
+                        <input type="submit" value="Register" class="btn btn-danger py-3 px-5">
+                    </div>
+                </center>
+                </form>
+
+            </div>
+
+           
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section pt-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <center><h2><b>Current BNS Sections</b></h2><br></center>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" style="background-color: white;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>BNS Section</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in view %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ i.BNS }}</td>
+                                <td>{{ i.Description }}</td>
+                                <td>
+                                    <a href="/delete_bns?id={{ i.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this BNS section?')">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No BNS sections found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}s+                

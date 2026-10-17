@@ -1,0 +1,341 @@
+{
+        "intents": [
+                {
+                        "tag": "greeting",
+                        "patterns": [
+                                "Hi there",
+                                "How are you",
+                                "Is anyone there?",
+                                "Hey",
+                                "Hola",
+                                "Hello",
+                                "Good day"
+                        ],
+                        "responses": [
+                                "Hello, thanks for asking",
+                                "Good to see you again",
+                                "Hi there, how can I help?"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "criminal",
+                        "patterns": [
+                                "civil cases",
+                                "How are you",
+                                "Is anyone there?",
+                                "Hey",
+                                "Hola",
+                                "Hello",
+                                "Good day"
+                        ],
+                        "responses": [
+                                "ADV.ANEEJA",
+                                "Good to see you again",
+                                "Hi there, how can I help?"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "crime",
+                        "patterns": [
+                                "civil cases",
+                                "child cases",
+                                "need help"
+                        ],
+                        "responses": [
+                                "ADV.ANEEJA",
+                                "adv.reshma",
+                                "how can I help you"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "goodbye",
+                        "patterns": [
+                                "Bye",
+                                "See you later",
+                                "Goodbye",
+                                "Nice chatting to you, bye",
+                                "Till next time"
+                        ],
+                        "responses": [
+                                "See you!",
+                                "Have a nice day",
+                                "Bye! Come back again soon."
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "thanks",
+                        "patterns": [
+                                "Thanks",
+                                "Thank you",
+                                "That's helpful",
+                                "Awesome, thanks",
+                                "Thanks for helping me"
+                        ],
+                        "responses": [
+                                "Happy to help!",
+                                "Any time!",
+                                "My pleasure"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "noanswer",
+                        "patterns": [],
+                        "responses": [
+                                "Sorry, can't understand you",
+                                "Please give me more info",
+                                "Not sure I understand"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "options",
+                        "patterns": [
+                                "How you could help me?",
+                                "What you can do?",
+                                "What help you provide?",
+                                "How you can be helpful?",
+                                "What support is offered"
+                        ],
+                        "responses": [
+                                "I can guide you through Adverse drug reaction list, Blood pressure tracking, Hospitals and Pharmacies",
+                                "Offering support for Adverse drug reaction, Blood pressure, Hospitals and Pharmacies"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "mouse issue",
+                        "patterns": [
+                                "my mouse is not working properly?",
+                                "mouse not working",
+                                "mouse issue",
+                                "mouse",
+                                "mouse is not supporting"
+                        ],
+                        "responses": [
+                                "Change your mouse, change your mouse pad, check software updates",
+                                "check system updates"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "legal_advisor",
+                        "patterns": [
+                                "I need legal advice",
+                                "Can you help me with a legal issue?",
+                                "How do I book an advocate?",
+                                "I want to register a case",
+                                "I have a legal problem",
+                                "Need help with legal proceedings",
+                                "How to find a lawyer for my case?",
+                                "Looking for legal consultation",
+                                "Where can I get legal support?",
+                                "Assistance with filing a complaint",
+                                "Legal guidance needed",
+                                "Seeking a lawyer for advice",
+                                "Process to hire a legal expert",
+                                "Steps to take for legal action",
+                                "Finding a solicitor for my issue"
+                        ],
+                        "responses": [
+                                "To book an advocate, please provide details of your case.",
+                                "I can help you find a legal advisor. What's your specific issue?",
+                                "For legal advice, please share the nature of your case or complaint.",
+                                "You can book an advocate with us. Please describe your legal situation.",
+                                "Our legal team is ready to assist. What kind of legal support do you need?",
+                                "To proceed with legal advice, let's start by understanding your case better.",
+                                "I'm here to assist you in connecting with a lawyer. What type of case do you have?"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "case_registration_fees",
+                        "patterns": [
+                                "What are the case registration fees?",
+                                "Fees for registering a case",
+                                "Cost of case registration",
+                                "How much do I need to pay to register a case?",
+                                "Case registration charges"
+                        ],
+                        "responses": [
+                                "The registration fee for a case depends on the type and complexity. Can you provide more details about your case?",
+                                "Case registration fees vary. Please specify the type of case for accurate information."
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "bns_section",
+                        "patterns": [
+                                "What is BNS section for theft?",
+                                "Explain BNS sections for fraud",
+                                "BNS section details",
+                                "Information about BNS sections",
+                                "What does a specific BNS section mean?"
+                        ],
+                        "responses": [
+                                "Please provide the specific BNS section number you want to know about.",
+                                "BNS (Bharatiya Nyaya Sanhita) sections cover various offenses. Which particular section are you interested in?"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "type_of_cases",
+                        "patterns": [
+                                "What are criminal cases?",
+                                "Explain civil cases",
+                                "Different types of legal cases",
+                                "Categories of cases in law",
+                                "What is the difference between criminal and civil cases?"
+                        ],
+                        "responses": [
+                                "Criminal cases involve offenses against the state, while civil cases are typically disputes between individuals.",
+                                "There are various types of cases, such as criminal, civil, family, and labor. Each has its own legal procedures and implications."
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "how",
+                        "patterns": [
+                                "How are you?",
+                                "How is everything?",
+                                "How's it going?",
+                                "How do you do?"
+                        ],
+                        "responses": [
+                                "I'm a chatbot, so I don't have feelings, but thanks for asking!",
+                                "As a chatbot, I'm here and ready to assist you!"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "what",
+                        "patterns": [
+                                "What's up?",
+                                "What are you doing?",
+                                "What is happening?"
+                        ],
+                        "responses": [
+                                "I'm here to help you. What can I assist you with today?",
+                                "Ready to assist you with your queries. What do you need help with?"
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "yes",
+                        "patterns": [
+                                "Yes",
+                                "Yeah",
+                                "Yup",
+                                "Sure"
+                        ],
+                        "responses": [
+                                "Great! How can I assist you further?",
+                                "Okay, feel free to ask me anything."
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "no",
+                        "patterns": [
+                                "No",
+                                "Nope",
+                                "Nah",
+                                "Not really"
+                        ],
+                        "responses": [
+                                "Alright, let me know if there's anything else I can do for you.",
+                                "Okay, if you have any other questions, feel free to ask."
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "okay",
+                        "patterns": [
+                                "Okay",
+                                "Ok",
+                                "Alright",
+                                "Sounds good"
+                        ],
+                        "responses": [
+                                "If you have any other questions, just let me know.",
+                                "Great! If you need further assistance, I'm here to help."
+                        ],
+                        "context": [
+                                ""
+                        ]
+                },
+                {
+                        "tag": "bns_section",
+                        "patterns": [
+                                "What is BNS section for theft?",
+                                "Explain BNS sections for fraud",
+                                "BNS section details",
+                                "Information about BNS sections",
+                                "What does a specific BNS section mean?",
+                                "Tell me about BNS section for assault",
+                                "BNS section for criminal breach of trust",
+                                "What BNS section is for murder?",
+                                "Explain BNS section for robbery",
+                                "Which BNS section is for dowry death?",
+                                "What does BNS section for kidnapping entail?",
+                                "BNS section for rape",
+                                "Details on BNS section for cheating",
+                                "Which BNS section is for criminal intimidation?",
+                                "Explain BNS section for hurt"
+                        ],
+                        "responses": [
+                                "Please provide the specific BNS section number you want to know about.",
+                                "BNS sections cover various offenses. Which particular section are you interested in?",
+                                "BNS Section 303 covers theft.",
+                                "BNS Section 318(4) deals with cheating and dishonestly inducing delivery of property.",
+                                "BNS Section 103 is for murder.",
+                                "BNS Section 80 is about dowry death.",
+                                "BNS Section 64 covers rape offenses.",
+                                "BNS Section 316 pertains to criminal breach of trust.",
+                                "BNS Section 115 is for voluntarily causing hurt.",
+                                "BNS Section 140 deals with kidnapping for ransom.",
+                                "BNS Section 351 is for criminal intimidation.",
+                                "BNS Section 309 is used for robbery cases."
+                        ],
+                        "context": [
+                                ""
+                        ]
+                }
+        ]
+}

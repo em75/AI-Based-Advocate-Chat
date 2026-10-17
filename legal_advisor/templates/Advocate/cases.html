@@ -1,0 +1,215 @@
+{% extends 'Advocate/common.html' %}
+{% load static %}
+{% block title %}Case Status - Advocate{% endblock %}
+{% block header %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap');
+
+    input[placeholder], textarea[placeholder], select {
+        font-size: small;
+    }
+
+    img {
+        max-width: 100%;
+        display: block;
+    }
+
+     :root {
+        --primary-gold: #c5a059;
+        --dark-bg: #1a1a1a;
+    }
+
+    .page-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/image/bg_2.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+        margin-top:-30px;
+        margin-bottom: 40px;
+    }
+
+    .page-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-gold);
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    /* Card Design */
+    .card {
+        display: flex;
+        padding: 2.5rem 2rem;
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, .5);
+        max-width: 700px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, .15);
+        margin: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #FFF;
+        border-radius: 10px;
+        top: -.7rem;
+        left: -.7rem;
+    }
+
+    .card img {
+        width: 8rem;
+        min-width: 80px;
+        box-shadow: 0 0 0 5px #FFF;
+        border-radius: 50%;
+    }
+
+    .infos {
+        margin-left: 1.5rem;
+    }
+
+    .name h2 {
+        font-size: 1.3rem;
+    }
+
+    .name h4 {
+        font-size: .8rem;
+        color: #333;
+    }
+
+    .text {
+        font-size: .9rem;
+        margin-bottom: 1rem;
+    }
+
+    .stats {
+        display: flex;
+        margin-bottom: 1rem;
+    }
+
+    .stats li {
+        min-width: 5rem;
+    }
+
+    .stats li h3 {
+        font-size: .99rem;
+    }
+
+    .stats li h4 {
+        font-size: .75rem;
+    }
+
+    .links button {
+        font-family: 'Poppins', sans-serif;
+        min-width: 150px;
+        padding: .5rem;
+        border: 1px solid #222;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all .25s linear;
+    }
+
+    .links .submit-btn {
+        background-color: #222;
+        color: #FFF;
+    }
+
+    @media screen and (max-width: 450px) {
+        .card {
+            display: block;
+        }
+
+        .infos {
+            margin-left: 0;
+            margin-top: 1.5rem;
+        }
+    }
+</style>
+
+<center>
+    <br>
+    <div class="page-header">
+    <div class="container" style>
+        <h3>CASE STATUS</h3>
+        <p class="text-white-50">Status update panel for updating case status and additional payment details</p>
+    </div>
+    </div>
+    <div class="card">
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for i in view %}
+
+            {% if i.status != 'Completed' %}
+            <div class="img">
+                <img src="/static/media/{{i.user.image}}">
+            </div>
+
+            <div class="infos">
+                <div class="name">
+                    <h2><b>{{i.user.name}}</b></h2>
+                    <h4>{{i.email}}</h4>
+                </div>
+                <p class="text">
+                    A person who presents a petition to an authority in respect of a particular cause.
+                </p>
+
+                <!-- Status Dropdown -->
+                <label for="status">Update Status:</label>
+                <select name="status" class="form-control" required>
+                    <option value="" selected disabled>Select Status</option>
+                    <option value="Start Processing">Start Processing</option>
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Failed">Failed</option>
+                </select>
+                <br>
+
+                <!-- Case Date -->
+                <label for="date">Case Date:</label>
+                <input type="date" name="date" readonly value="{{ current_date }}" required class="form-control">
+                <br>
+
+                <!-- Fees Input -->
+                <label for="fees">Add Fees:</label>
+                <input type="text" name="fees" placeholder="Enter Fees" required class="form-control">
+                <br>
+
+                <!-- File Upload -->
+                <label for="file">Upload Document:</label>
+                <input type="file" name="file" required class="form-control">
+                <br>
+
+                <!-- Description -->
+                <label for="desc">Case Description:</label>
+                <textarea name="desc" class="form-control" required placeholder="Describe About the Case" cols="30" rows="3"></textarea>
+                <br>
+
+                <div class="links">
+                    <button type="submit" class="submit-btn">Update & Send Request</button>
+                </div>
+
+            </div>
+
+            {% else %}
+            <center>
+                <h1><b>The Case Has Closed</b></h1>
+            </center>
+            {% endif %}
+            {% endfor %}
+        </form>
+    </div><br><br>
+</center>
+
+{% endblock %}

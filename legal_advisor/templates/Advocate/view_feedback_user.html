@@ -1,0 +1,238 @@
+{% extends 'Advocate/common.html' %}
+{% load static %}
+{% block title %}Feedback - Advocate{% endblock %}
+{% block header %}
+
+{% for i in messages %}
+<script>
+    alert("{{i}}");
+</script>
+{% endfor %}
+
+<style>
+    :root {
+        --primary-gold: #c5a059;
+        --dark-bg: #1a1a1a;
+        --accent-orange: #e67e22;
+    }
+
+    .page-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/image/bg_3.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .page-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-gold);
+    }
+
+    .search-container {
+        max-width: 600px;
+        margin: -30px auto 40px;
+        position: relative;
+        z-index: 10;
+        padding: 0 15px;
+    }
+
+    .search-input {
+        background: white;
+        border: none;
+        border-radius: 50px;
+        padding: 15px 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+        box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2);
+        outline: none;
+    }
+
+    .feedback-card {
+        background: white;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid #f0f0f0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .feedback-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .feedback-header {
+        padding: 20px 25px 10px;
+        border-bottom: 1px solid #f9f9f9;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .feedback-quote {
+        color: var(--primary-gold);
+        font-size: 2rem;
+        line-height: 1;
+        opacity: 0.3;
+        margin-bottom: -15px;
+    }
+
+    .feedback-body {
+        padding: 0 25px 25px;
+        flex-grow: 1;
+    }
+
+    .feedback-subject {
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .feedback-text {
+        color: #555;
+        font-style: italic;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .feedback-footer {
+        padding: 20px 25px;
+        background: #fcfcfc;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-gold);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-right: 12px;
+    }
+
+    .user-name {
+        font-weight: 600;
+        color: #333;
+        font-size: 0.95rem;
+    }
+
+    .date-text {
+        font-size: 0.8rem;
+        color: #bbb;
+        display: block;
+    }
+
+    .is-hidden {
+        display: none !important;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 100px 0;
+        color: #ccc;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h3>Client Testimonials</h3>
+        <p class="text-white-50">View and manage feedback from clients regarding your legal services</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="search-container">
+        <form id="searchForm">
+            <input type="text" id="searchBox" name="searchBox"
+                placeholder="Search by client name, subject, or content..." class="search-input">
+        </form>
+    </div>
+
+    {% if view %}
+    <div class="row" id="feedbackContainer">
+        {% for i in view %}
+        <div class="col-12 col-md-6 col-lg-4 mb-4 feedback-item">
+            <div class="feedback-card" data-searchable-content="{{i.uid.name}} {{i.sub}} {{i.Feedback}}">
+                <div class="feedback-header">
+                    <div class="feedback-quote">“</div>
+                    <span class="text-muted small"><i class="ion-ios-calendar mr-1"></i> {{i.date}}</span>
+                </div>
+                <div class="feedback-body">
+                    <h5 class="feedback-subject">{{i.sub}}</h5>
+                    <p class="feedback-text">{{i.Feedback}}</p>
+                </div>
+                <div class="feedback-footer">
+                    <div class="user-info">
+                        <div class="user-avatar text-uppercase">
+                            {{ i.uid.name|first }}
+                        </div>
+                        <div>
+                            <div class="user-name">{{i.uid.name}}</div>
+                            <span class="date-text">Verified Client</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="ion-ios-chatbubbles-outline"></i>
+        <h4>No feedback found.</h4>
+        <p>Feedback from your clients will appear here.</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    const searchBox = document.getElementById('searchBox');
+    const feedbackItems = document.querySelectorAll('.feedback-item');
+
+    searchBox.addEventListener('input', e => {
+        const term = e.target.value.toLowerCase();
+
+        feedbackItems.forEach(item => {
+            const card = item.querySelector('.feedback-card');
+            const content = card.getAttribute('data-searchable-content').toLowerCase();
+            const isMatch = content.includes(term);
+
+            if (isMatch) {
+                item.classList.remove('is-hidden');
+            } else {
+                item.classList.add('is-hidden');
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,346 @@
+{% extends 'User/common.html' %}
+{% load static %}
+{% block title %}Case Insights - User{% endblock %}
+{% block header %}
+
+<style>
+    :root {
+        --primary-gold: #c5a059;
+        --dark-bg: #1a1a1a;
+        --soft-gray: #f8f9fa;
+        --text-muted: #888;
+        --success-green: #28a745;
+        --warning-orange: #f39c12;
+    }
+
+    .page-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/image/bg_1.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .page-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-gold);
+    }
+
+    .breadcrumb-custom {
+        display: flex;
+        justify-content: center;
+        background: transparent;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .breadcrumb-custom li a {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .breadcrumb-custom li.active {
+        color: var(--primary-gold);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .details-container {
+        max-width: 800px;
+        margin: 0 auto 60px;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .card-premium-header {
+        background: var(--dark-bg);
+        color: white;
+        padding: 25px 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary-gold);
+        margin: 0;
+    }
+
+    .petitionar-info {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .card-premium-body {
+        padding: 40px 35px;
+    }
+
+    .advocate-section {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f9f9f9;
+        display: flex;
+        align-items: center;
+    }
+
+    .adv-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--primary-gold);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-right: 20px;
+    }
+
+    .adv-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #999;
+        margin-bottom: 2px;
+        display: block;
+    }
+
+    .adv-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .case-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 35px;
+    }
+
+    .info-box {
+        background: #fdfdfd;
+        border: 1px solid #f0f0f0;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .info-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #bbb;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .info-value {
+        font-weight: 600;
+        color: #444;
+        font-size: 1rem;
+    }
+
+    .case-description {
+        background: #f9f9f9;
+        padding: 25px;
+        border-radius: 15px;
+        border-left: 4px solid var(--primary-gold);
+        margin-bottom: 40px;
+    }
+
+    .desc-text {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .action-area {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-premium {
+        flex: 1;
+        padding: 16px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none !important;
+    }
+
+    .btn-pay {
+        background: var(--dark-bg);
+        color: white;
+        border: none;
+    }
+
+    .btn-pay:hover {
+        background: var(--primary-gold);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(197, 160, 89, 0.3);
+    }
+
+    .btn-completed {
+        background: rgba(40, 167, 69, 0.1);
+        color: var(--success-green);
+        border: 1px solid rgba(40, 167, 69, 0.2);
+        cursor: default;
+    }
+
+    .btn-feedback {
+        background: white;
+        color: var(--primary-gold);
+        border: 1px solid var(--primary-gold);
+    }
+
+    .btn-feedback:hover {
+        background: var(--primary-gold);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .status-pill {
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .pill-active {
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--primary-gold);
+    }
+
+    .empty-details {
+        text-align: center;
+        padding: 100px 0;
+        color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+        .case-info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .action-area {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h3>Case Insights</h3>
+        <ul class="breadcrumb-custom list-inline">
+            <li class="list-inline-item"><a href="/">Home</a></li>
+            <li class="list-inline-item text-white-50 mx-2">/</li>
+            <li class="list-inline-item"><a href="/user_view_request/">My Requests</a></li>
+            <li class="list-inline-item text-white-50 mx-2">/</li>
+            <li class="list-inline-item active">Case Details</li>
+        </ul>
+    </div>
+</div>
+
+<div class="container details-container">
+    {% for i in view %}
+    <div class="detail-card">
+        <div class="card-premium-header">
+            <h5 class="header-title">Official Case Report</h5>
+            <span class="petitionar-info">Petitioner: <b>{{i.user.name}}</b></span>
+        </div>
+
+        <div class="card-premium-body">
+            <div class="advocate-section">
+                <div class="adv-icon">
+                    <i class="ion-ios-person"></i>
+                </div>
+                <div>
+                    <span class="adv-label">Assigned Legal Advisor</span>
+                    <h4 class="adv-name">Adv. {{i.advocate.name}}</h4>
+                </div>
+            </div>
+
+            <div class="case-info-grid">
+                <div class="info-box">
+                    <span class="info-label">Current Strategy Status</span>
+                    <div class="d-flex align-items-center">
+                        <span class="info-value mr-2">{{i.rid.status}}</span>
+                        <span class="status-pill pill-active">Live</span>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <span class="info-label">Payment Status</span>
+                    <div class="d-flex align-items-center">
+                        {% if i.status == "NotPaid" %}
+                        <span class="info-value text-danger">Pending</span>
+                        {% else %}
+                        <span class="info-value text-success">Completed</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box mb-4">
+                <span class="info-label">Consultation Fees</span>
+                <span class="info-value">₹ {{i.fees}}</span>
+            </div>
+
+            <div class="case-description">
+                <span class="info-label mb-2 d-block">Official Description</span>
+                <p class="desc-text">{{i.desc}}</p>
+            </div>
+
+            <div class="action-area">
+                {% if i.status == "NotPaid" %}
+                <a href="/payment_page?amt={{i.fees}}&cid={{i.id}}" class="btn-premium btn-pay">
+                    <i class="ion-ios-card mr-2"></i> Process Payment
+                </a>
+                {% else %}
+                <div class="btn-premium btn-completed w-100 mb-3">
+                    <i class="ion-ios-checkmark-circle mr-2"></i> PAYMENT IS DONE
+                </div>
+                <a href="/user_add_feed?id={{i.advocate.id}}" class="btn-premium btn-feedback">
+                    <i class="ion-ios-star mr-2"></i> Submit Review
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-details">
+        <i class="ion-ios-paper-outline d-block mb-3" style="font-size: 3rem;"></i>
+        <p>Awaiting detailed case insights from your legal advisor.</p>
+        <a href="/user_view_request/" class="btn btn-link gold-text">Return to Requests</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

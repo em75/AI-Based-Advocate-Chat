@@ -1,0 +1,343 @@
+{% extends 'common.html' %}
+{% load static %}
+{% block title %}User Registration - AdvoBook{% endblock %}
+{% block header %}
+
+{% for i in messages %}
+<script>
+    alert("{{i}}")
+</script>
+{% endfor %}
+
+<style>
+
+.contact-section {
+    padding: 60px 0;
+}
+
+/* Elite Card */
+.contact-form {
+    background: #111827 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.35);
+    position: relative;
+    overflow: hidden;
+
+    margin: auto;
+    width: 100%;
+    max-width: 480px;
+    padding-bottom: 50px !important;
+}
+
+/* Gold border */
+.contact-form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #d4af37, #f5d76e, #d4af37);
+}
+
+/* Title */
+.contact-form h2 {
+    color: #f5d76e;
+    font-size: 24px;
+}
+
+/* ✅ Labels LEFT */
+.contact-form label {
+    color: #cbd5e1;
+    font-size: 13px;
+    margin-bottom: 4px;
+    display: block;
+    text-align: left;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Fields */
+.contact-form .form-control {
+    border-radius: 10px;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: white;
+    font-size: 13px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+/* Focus */
+.contact-form .form-control:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 2px rgba(212,175,55,0.25);
+}
+
+/* ✅ Gender Row Horizontal */
+.gender-group {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+/* Radios */
+.radio {
+    margin-right: 4px;
+}
+
+/* ✅ Radio text WHITE */
+.gender-group span {
+    color: white;
+    font-size: 13px;
+}
+
+/* ✅ Calendar icon white */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+    cursor: pointer;
+}
+
+/* Button */
+.contact-form .btn-danger {
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    border: none;
+    color: #111;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-size: 14px;
+}
+
+.contact-form .btn-danger:hover {
+    background: linear-gradient(135deg, #f5d76e, #d4af37);
+}
+
+/* Bubble */
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(212,175,55,0.10);
+    pointer-events: none;
+}
+
+/* ===== Subtle Premium Shine ===== */
+
+.contact-form {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Soft glossy highlight */
+.contact-form::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.06),
+        transparent 40%,
+        transparent 60%,
+        rgba(255,255,255,0.04)
+    );
+
+    pointer-events: none;
+}
+
+</style>
+
+<section class="ftco-section contact-section">
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-lg-6">
+
+<form method="post" enctype="multipart/form-data"
+      class="p-5 contact-form" id="box">
+
+{% csrf_token %}
+
+<center>
+    <h2><b>User Registration</b></h2><br>
+</center>
+
+<div class="form-group">
+    <label>Name</label>
+    <input type="text" class="form-control" name="name" placeholder="Enter your name" required>
+</div>
+
+<div class="form-group">
+    <label>Email</label>
+    <input type="email" class="form-control"
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        name="email" placeholder="Enter your email" required>
+</div>
+
+<div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control"
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+        title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters"
+        name="password" placeholder="Enter your password" required>
+
+</div>
+
+<div class="form-group">
+    <label>Phone Number</label>
+    <input type="text" class="form-control" maxlength="10" minlength="10" required
+        pattern="[6789][0-9]{9}" name="phone" placeholder="Enter your phone number">
+</div>
+
+<div class="form-group">
+    <label>Date Of Birth</label>
+    <input type="date" class="form-control" min="1980-01-02" required max="2005-12-31" name="dob"
+        placeholder="Enter your date of birth">
+</div>
+
+<div class="form-group">
+    <label> Bank Account Number</label>
+    <input type="text" class="form-control" name="ac_no" required placeholder="Enter your bank account number"
+        maxlength="16">
+</div>
+
+<div class="form-group">
+    <label>Aadhaar Number</label>
+    <input type="text" class="form-control" name="aadhaar" required minlength="12" maxlength="12"
+        placeholder="Enter your aadhaar number">
+</div>
+
+<!-- ✅ Gender Horizontal -->
+<div class="form-group">
+    <div class="gender-group">
+        <label style="margin:0; width:auto;">Gender</label>
+
+        <input type="radio" class="radio" value="male" required name="gender">
+        <span>Male</span>
+
+        <input type="radio" class="radio" name="gender" required value="female">
+        <span>Female</span>
+
+        <input type="radio" class="radio" name="gender" required value="others">
+        <span>Others</span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Profile Image</label>
+    <input type="file" class="form-control" name="image" required>
+</div>
+
+<div class="form-group">
+    <label>Address</label>
+    <textarea cols="30" name="address" rows="4" required class="form-control"
+        placeholder="Enter your address"></textarea><br>
+        <p style="margin-top:-10px; margin-left: 70px;">Already have an account?<a href="/login">Login</a></p>
+</div>
+
+<center>
+<div class="form-group">
+    <input type="submit" value="Register" class="btn btn-danger py-3 px-5">
+</div>
+</center>
+
+</form>
+
+</div>
+</div>
+</div>
+</section>
+
+<script>
+const box = document.getElementById("box");
+const bubbleCount = 10;
+const bubbles = [];
+
+for (let i = 0; i < bubbleCount; i++) {
+    const bubble = document.createElement("div");
+    bubble.classList.add("bubble");
+
+    const size = Math.random() * 50 + 30;
+    bubble.style.width = size + "px";
+    bubble.style.height = size + "px";
+
+    box.appendChild(bubble);
+
+    bubbles.push({
+        el: bubble,
+        x: Math.random() * (box.clientWidth - size),
+        y: Math.random() * (box.clientHeight - size),
+        dx: (Math.random() - 0.5) * 1.8,
+        dy: (Math.random() - 0.5) * 1.8,
+        size: size
+    });
+}
+
+/* ✅ Collision Handling */
+function resolveCollision(b1, b2) {
+    const dx = b2.x - b1.x;
+    const dy = b2.y - b1.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const minDist = (b1.size / 2) + (b2.size / 2);
+
+    if (distance < minDist) {
+        const angle = Math.atan2(dy, dx);
+        const overlap = minDist - distance;
+
+        /* Push bubbles apart */
+        b1.x -= Math.cos(angle) * overlap / 2;
+        b1.y -= Math.sin(angle) * overlap / 2;
+        b2.x += Math.cos(angle) * overlap / 2;
+        b2.y += Math.sin(angle) * overlap / 2;
+
+        /* Swap velocities (simple elastic effect) */
+        const tempDx = b1.dx;
+        const tempDy = b1.dy;
+
+        b1.dx = b2.dx;
+        b1.dy = b2.dy;
+        b2.dx = tempDx;
+        b2.dy = tempDy;
+    }
+}
+
+/* ✅ Animation Loop */
+function animate() {
+    bubbles.forEach(b => {
+        b.x += b.dx;
+        b.y += b.dy;
+
+        /* Wall bounce */
+        if (b.x <= 0 || b.x + b.size >= box.clientWidth) b.dx *= -1;
+        if (b.y <= 0 || b.y + b.size >= box.clientHeight) b.dy *= -1;
+
+        b.el.style.left = b.x + "px";
+        b.el.style.top = b.y + "px";
+    });
+
+    /* ✅ Bubble–Bubble collisions */
+    for (let i = 0; i < bubbles.length; i++) {
+        for (let j = i + 1; j < bubbles.length; j++) {
+            resolveCollision(bubbles[i], bubbles[j]);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+
+{% endblock %}

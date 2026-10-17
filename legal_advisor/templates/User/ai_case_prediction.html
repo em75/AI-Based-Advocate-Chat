@@ -1,0 +1,114 @@
+{% extends 'User/common.html' %}
+{% load static %}
+{% block title %}Prediction - User{% endblock %}
+{% block header %}
+
+<section class="ftco-section contact-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <h2 class="mb-4">AI Case Outcome Prediction</h2>
+                <p>Describe your case details below to get an instant AI-powered prediction on the likely outcome.</p>
+            </div>
+        </div>
+        <div class="row block-9 justify-content-center">
+            <div class="col-lg-10">
+                <div class="p-5 contact-form" style="background-color: #f8f9fa; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <div class="form-group">
+                        <label for="caseDescription" style="font-weight: 600; color: #333;">Case Description</label>
+                        <textarea id="caseDescription" name="question" cols="30" rows="7" class="form-control" placeholder="Describe the facts, parties involved, and the legal issue..." style="border-radius: 10px; border: 1px solid #ced4da; padding: 15px;"></textarea>
+                    </div>
+                    
+                    <div class="form-group text-center">
+                        <button type="button" id="predictBtn" class="btn btn-danger py-3 px-5" style="border-radius: 30px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
+                            <span id="btnText">Predict Outcome</span>
+                            <span id="loadingSpinner" style="display: none;">
+                                <i class="fa fa-spinner fa-spin"></i> Analyzing...
+                            </span>
+                        </button>
+                    </div>
+
+                    <div id="resultContainer" style="display: none; margin-top: 40px; border-top: 1px solid #eee; padding-top: 30px;">
+                        <h4 style="color: #000; font-weight: 700; margin-bottom: 20px;">Prediction Analysis</h4>
+                        <div id="predictionResult" style="background: #fff; padding: 25px; border-radius: 12px; border-left: 5px solid #dc3545; line-height: 1.8;">
+                            <!-- Result will be injected here -->
+                        </div>
+                    </div>
+                    
+                    <div id="errorContainer" style="display: none; margin-top: 20px;" class="alert alert-warning">
+                        An error occurred while analyzing the case. Please try again.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script>
+$(document).ready(function() {
+    $('#predictBtn').on('click', function() {
+        var question = $('#caseDescription').val().trim();
+        
+        if (!question) {
+            alert("Please describe your case before predicting.");
+            return;
+        }
+
+        // UI State: Loading
+        $('#btnText').hide();
+        $('#loadingSpinner').show();
+        $('#predictBtn').prop('disabled', true);
+        $('#resultContainer').hide();
+        $('#errorContainer').hide();
+
+        $.ajax({
+            url: "/ai_case_prediction/",
+            type: "POST",
+            data: {
+                'question': question,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(response) {
+                if (response.answer) {
+                    var answer = response.answer;
+                    
+                    // Format the answer slightly if needed
+                    // Simple replacement for line breaks
+                    var formattedAnswer = answer.replace(/\n/g, '<br>');
+                    
+                    // Highlight WIN/LOSS
+                    if (formattedAnswer.includes('WIN')) {
+                        $('#predictionResult').css('border-left-color', '#28a745');
+                        formattedAnswer = formattedAnswer.replace(/WIN/g, '<b style="color: #28a745; font-size: 1.2em;">WIN</b>');
+                    } else if (formattedAnswer.includes('LOSS')) {
+                         $('#predictionResult').css('border-left-color', '#dc3545');
+                         formattedAnswer = formattedAnswer.replace(/LOSS/g, '<b style="color: #dc3545; font-size: 1.2em;">LOSS</b>');
+                    }
+
+                    $('#predictionResult').html(formattedAnswer);
+                    $('#resultContainer').fadeIn();
+                } else {
+                    $('#errorContainer').show();
+                }
+            },
+            error: function() {
+                $('#errorContainer').show();
+            },
+            complete: function() {
+                // UI State: Reset
+                $('#loadingSpinner').hide();
+                $('#btnText').show();
+                $('#predictBtn').prop('disabled', false);
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

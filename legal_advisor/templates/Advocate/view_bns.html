@@ -1,0 +1,183 @@
+{% extends 'Advocate/common.html' %}
+{% load static %}
+{% block title %}BNS Sections - Advocate{% endblock %}
+{% block header %}
+
+<style>
+    :root {
+        --primary-gold: #c5a059;
+        --dark-bg: #1a1a1a;
+    }
+
+    .page-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/image/bg_2.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .page-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-gold);
+    }
+
+    .search-container {
+        max-width: 600px;
+        margin: -30px auto 40px;
+        position: relative;
+        z-index: 10;
+        padding: 0 15px;
+    }
+
+    .search-input {
+        background: white;
+        border: none;
+        border-radius: 50px;
+        padding: 15px 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+        box-shadow: 0 10px 30px rgba(197, 160, 89, 0.2);
+        outline: none;
+    }
+
+    .bns-card {
+        background: white;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid #f0f0f0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bns-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .bns-header {
+        padding: 25px 30px 15px;
+        background: #fcfcfc;
+        border-bottom: 1px solid #f9f9f9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .bns-number {
+        color: var(--primary-gold);
+        font-weight: 800;
+        font-size: 1.25rem;
+        margin: 0;
+    }
+
+    .bns-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #bbb;
+    }
+
+    .bns-body {
+        padding: 25px 30px 40px;
+        flex-grow: 1;
+    }
+
+    .bns-desc {
+        color: #555;
+        line-height: 1.7;
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    .is-hidden {
+        display: none !important;
+    }
+
+    .feedback-text {
+        text-align: center;
+        color: #888;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h3>BNS Legal Directory</h3>
+        <p class="text-white-50">Reference guide for Bharatiya Nyaya Sanhita sections and provisions</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="search-container">
+        <form id="searchForm">
+            <input type="text" id="searchBox" name="searchBox" placeholder="Search by section number or description..."
+                class="search-input">
+        </form>
+    </div>
+
+    <div class="feedback-text feedback"></div>
+
+    <div class="row" id="bnsContainer">
+        {% for i in view %}
+        <div class="col-12 col-md-6 col-lg-4 mb-4 bns-item">
+            <div class="bns-card" data-searchable-content="{{i.BNS}} {{i.Description}}">
+                <div class="bns-header">
+                    <h5 class="bns-number">{{i.BNS}}</h5>
+                    <span class="bns-label">Section</span>
+                </div>
+                <div class="bns-body">
+                    <p class="bns-desc">{{i.Description}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    const searchBox = document.getElementById('searchBox');
+    const feedback = document.querySelector('.feedback');
+    const bnsItems = document.querySelectorAll('.bns-item');
+
+    searchBox.addEventListener('input', e => {
+        const term = e.target.value.toLowerCase();
+        let resultCount = 0;
+
+        bnsItems.forEach(item => {
+            const card = item.querySelector('.bns-card');
+            const content = card.getAttribute('data-searchable-content').toLowerCase();
+            const isMatch = content.includes(term);
+
+            if (isMatch) {
+                item.classList.remove('is-hidden');
+                resultCount++;
+            } else {
+                item.classList.add('is-hidden');
+            }
+        });
+
+        if (term.length > 0) {
+            feedback.textContent = resultCount === 1
+                ? 'Showing 1 section'
+                : `Showing ${resultCount} sections`;
+        } else {
+            feedback.textContent = '';
+        }
+    });
+</script>
+
+{% endblock %}

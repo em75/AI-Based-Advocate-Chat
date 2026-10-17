@@ -1,0 +1,366 @@
+{% extends 'common.html' %}
+{% load static %}
+{% block title %}Advocate Registration - AdvoBook{% endblock %}
+{% block header %}
+
+<style>
+.contact-section {
+    padding: 60px 0;
+}
+
+/* Elite Card */
+.contact-form {
+    background: linear-gradient(135deg, #111827, #1e293b) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+
+    margin: auto;
+    width: 100%;
+    max-width: 500px;
+    padding-bottom: 50px !important;
+}
+
+/* Gold top border */
+.contact-form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #d4af37, #f5d76e, #d4af37);
+}
+
+/* Title */
+.contact-form h2 {
+    color: #f5d76e;
+    font-size: 24px;
+}
+
+/* ✅ Labels LEFT & ABOVE */
+.contact-form label {
+    color: #cbd5e1;
+    font-size: 13px;
+    margin-bottom: 4px;
+    display: block;
+    text-align: left;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Inputs */
+.contact-form .form-control {
+    border-radius: 10px;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: white;
+    font-size: 13px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+/* Focus */
+.contact-form .form-control:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 2px rgba(212,175,55,0.25);
+}
+
+/* Select text */
+select.form-control {
+    color: white;
+}
+
+/* ✅ Gender Horizontal */
+.gender-group {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+/* Radio */
+.radio {
+    margin-right: 4px;
+}
+
+/* Radio text */
+.gender-group span {
+    color: white;
+    font-size: 13px;
+}
+
+/* Button */
+.contact-form .btn-danger {
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    border: none;
+    color: #111;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-size: 14px;
+}
+.contact-form .btn-danger:hover {
+    background: linear-gradient(135deg, #f5d76e, #d4af37);
+}
+/* Bubble */
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(212,175,55,0.10);
+    pointer-events: none;
+}
+
+/* ===== Subtle Premium Shine ===== */
+
+.contact-form {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle Shine */
+.contact-form::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.05),
+        transparent 40%,
+        transparent 60%,
+        rgba(255,255,255,0.03)
+    );
+    pointer-events: none;
+}
+</style>
+
+<section class="ftco-section contact-section">
+<div class="container">
+<div class="row justify-content-center">
+
+<div class="col-lg-6">
+
+<form method="post" enctype="multipart/form-data"
+      class="p-5 contact-form" id="box">
+
+{% csrf_token %}
+
+<center>
+    <h2><b>Advocate Registration</b></h2><br>
+</center>
+
+<div class="form-group">
+    <label>Name</label>
+    <input type="text" class="form-control" name="name" placeholder="Enter your name" required>
+</div>
+
+<div class="form-group">
+    <label>Email</label>
+    <input type="email" class="form-control"
+           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+           name="email" placeholder="Enter your email" required>
+</div>
+
+<div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control"
+           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+           title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+           name="password" placeholder="Enter your password" required>
+</div>
+
+<div class="form-group">
+    <label>Phone Number</label>
+    <input type="text" class="form-control" maxlength="10" minlength="10" required pattern="[6789][0-9]{9}" name="phone" placeholder="Enter your phone number">
+</div>
+
+<div class="form-group">
+    <label>Date of Birth</label>
+    <input type="date" class="form-control"
+           min="1980-01-02"
+           max="2005-12-31"
+           name="dob" placeholder="Enter your date of birth">
+</div>
+
+<div class="form-group">
+    <label>Select District</label>
+    <select name="district" class="form-control">
+        <option value="" selected disabled>Select District</option>
+        <option value="Alappuzha">Alappuzha</option>
+        <option value="Idukki">Idukki</option>
+        <option value="Ernakulam">Ernakulam</option>
+        <option value="Palakkad">Palakkad</option>
+        <option value="Kannur">Kannur</option>
+        <option value="Kasargod">Kasargod</option>
+        <option value="Kozhikode">Kozhikode</option>
+        <option value="Kottayam">Kottayam</option>
+        <option value="Kollam">Kollam</option>
+        <option value="Thrissur">Thrissur</option>
+        <option value="Pathanamthitta">Pathanamthitta</option>
+        <option value="Malappuram">Malappuram</option>
+        <option value="Wayanad">Wayanad</option>
+        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Select Education</label>
+    <select name="education" class="form-control">
+        <option value="" selected disabled>Select Education</option>
+        <option value="LLB">LLB</option>
+        <option value="BA_LLM">BA LLM</option>
+        <option value="BA LLB">BA LLB</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Select Category</label>
+    <select name="cases" class="form-control">
+        <option value="" selected disabled>Select Category</option>
+        {% for i in view %}
+        <option value="{{i.Category}}">{{i.Category}}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="form-group">
+    <label>Advocate Code</label>
+    <input type="text" class="form-control" name="code" placeholder="Enter your advocate code" required>
+</div>
+
+<!-- ✅ Gender Horizontal -->
+<div class="form-group">
+    <div class="gender-group">
+        <label style="margin:0; width:auto;">Gender</label>
+
+        <input type="radio" class="radio" value="male" required name="gender">
+        <span>Male</span>
+
+        <input type="radio" class="radio" name="gender" required value="female">
+        <span>Female</span>
+
+        <input type="radio" class="radio" name="gender" required value="others">
+        <span>Others</span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Profile Image</label>
+    <input type="file" class="form-control" name="image" required>
+</div>
+
+<div class="form-group">
+    <label>Files or Certificates</label>
+    <input type="file" class="form-control" name="files" required>
+</div>
+
+<div class="form-group">
+    <label>Address</label>
+    <textarea cols="30" name="address" rows="4"
+              class="form-control"
+              placeholder="Enter your address"></textarea><br>
+    <p style="margin-top:-10px; margin-left: 70px;">Already have an account?<a href="/login">Login</a></p>
+</div>
+
+<center>
+<div class="form-group">
+    <input type="submit" value="Register"
+           class="btn btn-danger py-3 px-5">
+</div>
+</center>
+
+</form>
+
+</div>
+</div>
+</div>
+</section>
+<script>
+const box = document.getElementById("box");
+const bubbleCount = 10;
+const bubbles = [];
+
+for (let i = 0; i < bubbleCount; i++) {
+    const bubble = document.createElement("div");
+    bubble.classList.add("bubble");
+
+    const size = Math.random() * 50 + 30;
+    bubble.style.width = size + "px";
+    bubble.style.height = size + "px";
+
+    box.appendChild(bubble);
+
+    bubbles.push({
+        el: bubble,
+        x: Math.random() * (box.clientWidth - size),
+        y: Math.random() * (box.clientHeight - size),
+        dx: (Math.random() - 0.5) * 1.8,
+        dy: (Math.random() - 0.5) * 1.8,
+        size: size
+    });
+}
+
+/* ✅ Collision Handling */
+function resolveCollision(b1, b2) {
+    const dx = b2.x - b1.x;
+    const dy = b2.y - b1.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const minDist = (b1.size / 2) + (b2.size / 2);
+
+    if (distance < minDist) {
+        const angle = Math.atan2(dy, dx);
+        const overlap = minDist - distance;
+
+        /* Push bubbles apart */
+        b1.x -= Math.cos(angle) * overlap / 2;
+        b1.y -= Math.sin(angle) * overlap / 2;
+        b2.x += Math.cos(angle) * overlap / 2;
+        b2.y += Math.sin(angle) * overlap / 2;
+
+        /* Swap velocities (simple elastic effect) */
+        const tempDx = b1.dx;
+        const tempDy = b1.dy;
+
+        b1.dx = b2.dx;
+        b1.dy = b2.dy;
+        b2.dx = tempDx;
+        b2.dy = tempDy;
+    }
+}
+
+/* ✅ Animation Loop */
+function animate() {
+    bubbles.forEach(b => {
+        b.x += b.dx;
+        b.y += b.dy;
+
+        /* Wall bounce */
+        if (b.x <= 0 || b.x + b.size >= box.clientWidth) b.dx *= -1;
+        if (b.y <= 0 || b.y + b.size >= box.clientHeight) b.dy *= -1;
+
+        b.el.style.left = b.x + "px";
+        b.el.style.top = b.y + "px";
+    });
+
+    /* ✅ Bubble–Bubble collisions */
+    for (let i = 0; i < bubbles.length; i++) {
+        for (let j = i + 1; j < bubbles.length; j++) {
+            resolveCollision(bubbles[i], bubbles[j]);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+{% endblock %}

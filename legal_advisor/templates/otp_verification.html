@@ -1,0 +1,32 @@
+{% extends 'common.html' %}
+{% load static %}
+{% block title %}Otp Verification - AdvoBook{% endblock %}
+{% block header %}
+
+<section class="ftco-section contact-section">
+    <div class="container">
+        <div class="row block-9">
+            <div class="col-md-2"></div>
+            
+            <div class="col-lg-8 order-md-last d-flex">
+                <form method="post" class="p-5 contact-form" style="background-color: rgb(225, 235, 243); border-radius: 10px; width: 100%;">
+                    {% csrf_token %}
+                    <center><h2><b>OTP Verification</b></h2>
+                    <p>Enter the 6-digit code sent to <b>{{ email }}</b></p><br></center>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="otp" placeholder="6-Digit OTP" required pattern="\d{6}" maxlength="6">
+                    </div>
+                    
+                    <center>
+                    <div class="form-group">
+                        <input type="submit" value="Verify OTP" class="btn btn-danger py-3 px-5">
+                    </div>
+                </center>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

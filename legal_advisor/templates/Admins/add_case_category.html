@@ -1,0 +1,41 @@
+{% extends 'Admins/common.html' %}
+{% load static %}
+{% block header %}
+
+{% for i in messages %}
+    <script>
+        alert("{{i}}")
+    </script>
+{% endfor %}
+
+<section class="ftco-section contact-section">
+    <div class="container">
+        <div class="row block-9">
+            <div class="col-md-2"></div>
+            
+            <div class="col-lg-8 order-md-last d-flex">
+                <form method="post" enctype="multipart/form-data" class="p-5 contact-form" style="background-color: rgb(225, 235, 243); border-radius: 10px;">
+                    {% csrf_token %}
+                    <center><h2><b>Add Case Category</b></h2><br></center>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="Category" placeholder="Enter Case Category" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="" cols="30" name="desc" rows="5" required class="form-control"
+                            placeholder="Decsription"></textarea>
+                    </div>
+                    <center>
+                    <div class="form-group">
+                        <input type="submit" value="Register" class="btn btn-danger py-3 px-5">
+                    </div>
+                </center>
+                </form>
+
+            </div>
+
+           
+        </div>
+    </div>
+</section>
+
+{% endblock %}s+                

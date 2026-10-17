@@ -1,0 +1,255 @@
+{% extends 'User/common.html' %}
+{% load static %}
+{% block title %}BNS Sections - User{% endblock %}
+{% block header %}
+
+<style>
+    :root {
+        --primary-gold: #c5a059;
+        --dark-bg: #1a1a1a;
+        --soft-gray: #f8f9fa;
+        --text-muted: #888;
+    }
+
+    .page-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/image/bg_3.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .page-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-gold);
+    }
+
+    .breadcrumb-custom {
+        display: flex;
+        justify-content: center;
+        background: transparent;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .breadcrumb-custom li a {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .breadcrumb-custom li.active {
+        color: var(--primary-gold);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .search-container {
+        max-width: 700px;
+        margin: -35px auto 50px;
+        position: relative;
+        z-index: 10;
+        padding: 0 15px;
+    }
+
+    .search-input {
+        background: white;
+        border: none;
+        border-radius: 50px;
+        padding: 18px 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .search-input:focus {
+        box-shadow: 0 15px 40px rgba(197, 160, 89, 0.2);
+        outline: none;
+        transform: translateY(-2px);
+    }
+
+    .bns-card {
+        background: white;
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #f0f0f0;
+        position: relative;
+    }
+
+    .bns-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+        border-color: var(--primary-gold);
+    }
+
+    .card-accent {
+        height: 5px;
+        background: var(--primary-gold);
+        width: 100%;
+    }
+
+    .bns-details {
+        padding: 30px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .section-number {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--primary-gold);
+        margin-bottom: 15px;
+        display: block;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .bns-description {
+        color: #555;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+        max-height: 150px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .bns-description::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .bns-description::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .bns-description::-webkit-scrollbar-thumb {
+        background: var(--primary-gold);
+        border-radius: 10px;
+    }
+
+    .card-footer-info {
+        margin-top: auto;
+        padding-top: 15px;
+        border-top: 1px solid #f9f9f9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.75rem;
+        color: #bbb;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .is-hidden {
+        display: none !important;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 100px 0;
+        color: #ccc;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h3>Bharatiya Nyaya Sanhita</h3>
+        <ul class="breadcrumb-custom list-inline">
+            <li class="list-inline-item"><a href="/">Home</a></li>
+            <li class="list-inline-item text-white-50 mx-2">/</li>
+            <li class="list-inline-item active">Legal Directory</li>
+        </ul>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <!-- Modern Search -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by section number or legal keyword..."
+            class="search-input">
+    </div>
+
+    <!-- BNS Grid -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="bnsGrid">
+        {% for i in view %}
+        <div class="col mb-4 bns-item" data-searchable="{{i.BNS}} {{i.Description}}">
+            <div class="bns-card">
+                <div class="card-accent"></div>
+                <div class="bns-details">
+                    <span class="section-number">{{i.BNS}}</span>
+                    <div class="bns-description">
+                        {{i.Description}}
+                    </div>
+                    <div class="card-footer-info">
+                        <span><i class="ion-ios-book mr-1"></i> BNS Directory</span>
+                        <span>Official Record</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 empty-state">
+            <i class="ion-ios-paper-outline"></i>
+            <h4>No sections found</h4>
+            <p>Our legal directory is being updated. Please check back shortly.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- No Results Placeholder -->
+    <div id="noResults" class="empty-state is-hidden">
+        <i class="ion-ios-search"></i>
+        <h4>No matching legal sections</h4>
+        <p>Try refining your search terms.</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('input', function () {
+            const query = $(this).val().toLowerCase().trim();
+            const items = $('.bns-item');
+            let found = false;
+
+            items.each(function () {
+                const searchable = $(this).attr('data-searchable').toLowerCase();
+                if (searchable.includes(query)) {
+                    $(this).removeClass('is-hidden');
+                    found = true;
+                } else {
+                    $(this).addClass('is-hidden');
+                }
+            });
+
+            if (found || query === "") {
+                $('#noResults').addClass('is-hidden');
+            } else {
+                $('#noResults').removeClass('is-hidden');
+            }
+        });
+    });
+</script>
+
+{% endblock %}

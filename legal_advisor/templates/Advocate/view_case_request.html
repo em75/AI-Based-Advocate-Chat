@@ -1,0 +1,352 @@
+{% extends 'Advocate/common.html' %}
+{% load static %}
+{% block title %}Case Request - Advocate{% endblock %}
+{% block header %}
+
+{% for i in messages %}
+<script>
+    alert("{{i}}");
+</script>
+{% endfor %}
+
+<style>
+    :root {
+        --primary-gold: #c5a059;
+        --dark-bg: #1a1a1a;
+        --approved-green: #2ecc71;
+        --pending-orange: #f39c12;
+        --rejected-red: #e74c3c;
+    }
+
+    .page-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/image/bg_1.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .page-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-gold);
+    }
+
+    .nav-tabs {
+        border-bottom: 2px solid #eee;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .nav-tabs .nav-link {
+        border: none;
+        color: #888;
+        font-weight: 600;
+        padding: 12px 30px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        background: transparent;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: var(--primary-gold);
+        background: transparent;
+        border-bottom: 3px solid var(--primary-gold);
+    }
+
+    .request-card {
+        background: white;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid #f0f0f0;
+        padding: 30px;
+    }
+
+    .request-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .request-subject {
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+        border-bottom: 1px solid #f9f9f9;
+        padding-bottom: 15px;
+    }
+
+    .request-desc {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        min-height: 80px;
+    }
+
+    .request-meta {
+        background: #fcfcfc;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 25px;
+        font-size: 0.85rem;
+    }
+
+    .custom-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+        margin-top: -15px;
+    }
+
+    .custom-table thead th {
+        border: none;
+        color: #888;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        padding: 0 20px 10px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .custom-table tbody tr {
+        background: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
+        transition: all 0.3s ease;
+    }
+
+    .custom-table tbody tr:hover {
+        transform: scale(1.01);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .custom-table td {
+        padding: 20px;
+        border: none;
+        vertical-align: middle;
+        color: #555;
+    }
+
+    .custom-table td:first-child {
+        border-radius: 12px 0 0 12px;
+    }
+
+    .custom-table td:last-child {
+        border-radius: 0 12px 12px 0;
+    }
+
+    .user-pill {
+        display: flex;
+        align-items: center;
+    }
+
+    .avatar-sm {
+        width: 35px;
+        height: 35px;
+        background: var(--primary-gold);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        margin-right: 12px;
+        font-size: 0.8rem;
+    }
+
+    .badge-premium {
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 0;
+        color: #ccc;
+    }
+
+    .empty-state i {
+        font-size: 3.5rem;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h3>Case Requests</h3>
+        <p class="text-white-50">Manage your consultation and legal representation workflow</p>
+    </div>
+</div>
+
+<div class="container">
+    <ul class="nav nav-tabs" id="requestTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab">New Requests
+                ({{view|length}})</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="approved-tab" data-toggle="tab" href="#approved" role="tab">Approved Case
+                ({{ap|length}})</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="rejected-tab" data-toggle="tab" href="#rejected" role="tab">History
+                ({{rj|length}})</a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-4" id="requestTabContent">
+        <!-- Pending Requests -->
+        <div class="tab-pane fade show active" id="pending" role="tabpanel">
+            {% if view %}
+            <div class="row">
+                {% for i in view %}
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="request-card">
+                        <h5 class="request-subject">{{i.sub}}</h5>
+                        <div class="request-meta">
+                            <div class="user-pill">
+                                <span class="avatar-sm">{{ i.user.name|first }}</span>
+                                <div>
+                                    <strong class="d-block">{{i.user.name}}</strong>
+                                    <span class="text-muted"><i class="ion-ios-calendar mr-1"></i> {{i.date}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="request-desc">{{i.desc}}</p>
+                        <div class="d-flex border-top pt-4">
+                            <a href="/approve_case_request?id={{i.id}}"
+                                class="btn btn-success flex-fill mr-2">Approve</a>
+                            <a href="/reject_case_request?id={{i.id}}" class="btn btn-outline-danger px-4">Reject</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="ion-ios-filing-outline"></i>
+                <h4>No pending requests.</h4>
+                <p>New case requests from clients will appear here.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Approved Cases -->
+        <div class="tab-pane fade" id="approved" role="tabpanel">
+            {% if ap %}
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Subject</th>
+                            <th>Date</th>
+                            <th>Status/Case ID</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in ap %}
+                        <tr>
+                            <td>
+                                <div class="user-pill">
+                                    <span class="avatar-sm">{{ i.user.name|first }}</span>
+                                    <span>{{i.user.name}}</span>
+                                </div>
+                            </td>
+                            <td><strong>{{i.sub}}</strong></td>
+                            <td>{{i.date}}</td>
+                            <td>
+                                {% if i.status == 'Not_Updated' %}
+                                <span class="badge-premium badge-info">Confirmed</span>
+                                {% else %}
+                                <span class="badge-premium badge-success">{{ i.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-right">
+                                <a href="/reply?email={{i.user.email}}&uid={{i.user.loginid_id}}"
+                                    class="btn btn-sm btn-outline-primary mr-2">
+                                    <i class="ion-ios-chatbubbles mr-1"></i> Chat
+                                </a>
+                                <a href="/adv_view_approved_case?id={{i.id}}&uid={{i.user_id}}"
+                                    class="btn btn-sm btn-danger px-3">
+                                    Details
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="ion-ios-checkmark-circle-outline"></i>
+                <h4>No approved cases.</h4>
+                <p>Approve pending requests to start working on cases.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Rejected Cases -->
+        <div class="tab-pane fade" id="rejected" role="tabpanel">
+            {% if rj %}
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Subject</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in rj %}
+                        <tr>
+                            <td>
+                                <div class="user-pill">
+                                    <span class="avatar-sm bg-secondary">{{ i.user.name|first }}</span>
+                                    <span>{{i.user.name}}</span>
+                                </div>
+                            </td>
+                            <td>{{i.sub}}</td>
+                            <td><small class="text-muted">{{i.desc|truncatechars:50}}</small></td>
+                            <td>{{i.date}}</td>
+                            <td>
+                                {% if i.request == 'Rejected' %}
+                                <span class="badge-premium badge-secondary">Rejected</span>
+                                {% elif i.status == 'Completed' %}
+                                <span class="badge-premium badge-success">Closed</span>
+                                {% else %}
+                                <span class="badge-premium badge-danger">{{ i.status }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="ion-ios-close-circle-outline"></i>
+                <h4>History is empty.</h4>
+                <p>Rejected or closed requests will be archived here.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

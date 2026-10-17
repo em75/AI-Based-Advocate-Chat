@@ -1,0 +1,281 @@
+{% extends 'User/common.html' %}
+{% load static %}
+{% block title %}My Feedback - User{% endblock %}
+{% block header %}
+
+<style>
+    :root {
+        --primary-gold: #c5a059;
+        --dark-bg: #1a1a1a;
+        --soft-gray: #f8f9fa;
+        --text-muted: #888;
+        --glass-bg: rgba(255, 255, 255, 0.95);
+    }
+
+    .page-header {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/static/image/bg_2.jpg') no-repeat center center;
+        background-size: cover;
+        padding: 50px 0;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .page-header h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--primary-gold);
+    }
+
+    .breadcrumb-custom {
+        display: flex;
+        justify-content: center;
+        background: transparent;
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .breadcrumb-custom li a {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .breadcrumb-custom li.active {
+        color: var(--primary-gold);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .search-container {
+        max-width: 600px;
+        margin: -35px auto 40px;
+        position: relative;
+        z-index: 10;
+        padding: 0 15px;
+    }
+
+    .search-input {
+        background: white;
+        border: none;
+        border-radius: 50px;
+        padding: 15px 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+    .search-input:focus {
+        box-shadow: 0 15px 40px rgba(197, 160, 89, 0.2);
+        outline: none;
+    }
+
+    .feedback-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+    }
+
+    .feedback-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        padding: 40px;
+        border: 1px solid #f0f0f0;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feedback-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        border-color: var(--primary-gold);
+    }
+
+    .feedback-card::before {
+        content: '\f289';
+        /* ion-quote alternate */
+        font-family: "Ionicons";
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        font-size: 6rem;
+        color: rgba(197, 160, 89, 0.05);
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    .feedback-header {
+        margin-bottom: 25px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .adv-badge {
+        display: inline-block;
+        background: rgba(197, 160, 89, 0.1);
+        color: var(--primary-gold);
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+    }
+
+    .verified-badge {
+        display: inline-block;
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-left: 10px;
+    }
+
+    .feedback-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--dark-bg);
+        margin-bottom: 5px;
+    }
+
+    .feedback-content {
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 30px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .feedback-footer {
+        display: flex;
+        align-items: center;
+        border-top: 1px solid #f9f9f9;
+        padding-top: 20px;
+        justify-content: space-between;
+    }
+
+    .date-info {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .is-hidden {
+        display: none !important;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 100px 0;
+        color: #ccc;
+    }
+
+    @media (max-width: 768px) {
+        .feedback-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .feedback-card {
+            padding: 30px;
+        }
+    }
+</style>
+
+<div class="page-header">
+    <div class="container">
+        <h3>My Testimonial History</h3>
+        <ul class="breadcrumb-custom list-inline">
+            <li class="list-inline-item"><a href="/">Home</a></li>
+            <li class="list-inline-item text-white-50 mx-2">/</li>
+            <li class="list-inline-item active">My Feedback</li>
+        </ul>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <!-- Modern Search -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search your feedback history..." class="search-input">
+    </div>
+
+    {% if view %}
+    <div class="feedback-grid" id="feedbackGrid">
+        {% for i in view %}
+        <div class="feedback-card">
+            <div class="feedback-header">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="adv-badge">Review for Adv. {{i.aid.name}}</span>
+                    <span class="verified-badge"><i class="ion-ios-checkmark-circle mr-1"></i> Verified</span>
+                </div>
+                <h4 class="feedback-title">{{i.sub}}</h4>
+            </div>
+
+            <p class="feedback-content">"{{i.Feedback}}"</p>
+
+            <div class="feedback-footer">
+                <div class="date-info">
+                    <i class="ion-ios-calendar mr-1"></i> Submitted on {{i.date}}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- No Results Placeholder -->
+    <div id="noResults" class="empty-state is-hidden">
+        <i class="ion-ios-search d-block mb-3" style="font-size: 3rem;"></i>
+        <p>No matching testimonials found in your history.</p>
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+        <i class="ion-ios-chatbubbles-outline d-block mb-3" style="font-size: 3rem;"></i>
+        <p>You haven't submitted any feedback yet. Share your experience with an advocate!</p>
+        <a href="/user_view_request/" class="btn btn-link gold-text">View My Cases</a>
+    </div>
+    {% endif %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            const query = $(this).val().toLowerCase();
+            let found = false;
+
+            $('.feedback-card').each(function () {
+                const text = $(this).text().toLowerCase();
+                if (text.indexOf(query) > -1) {
+                    $(this).removeClass('is-hidden');
+                    found = true;
+                } else {
+                    $(this).addClass('is-hidden');
+                }
+            });
+
+            if (found || query === "") {
+                $('#noResults').addClass('is-hidden');
+            } else {
+                $('#noResults').removeClass('is-hidden');
+            }
+        });
+    });
+</script>
+
+{% endblock %}
